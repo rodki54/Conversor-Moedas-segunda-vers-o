@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conversor</title>
+  <style>
+    input {
+
+      width: 100px;
+      text-align: center;
+      height: 20px;
+      margin-top: 50px;
+      margin: 20px;
+      padding: 20px;
+
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+    }
+
+    label {
+
+      float: left;
+      text-align: center;
+      justify-content: center;
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+
+    }
+
+    .sessao {
+      width: 1200px;
+      background-color: rgb(255, 255, 255);
+      height: 200px;
+      border: 2px solid black;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 150px;
+      flex-direction: column;
+      opacity: 0.9;
+
+    }
+
+    body {
+      background-image: url(Imagens/ImagemFundoPreta.jpg);
+      background-size: cover;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="topo">
+    <h1 style="text-align: center;color: rgb(226, 144, 50);">Conversor de moedas</h1>
+  </div>
+  <section class="sessao">
+    <div id="fs">
+      <label><img src="https://www.countryflags.io/GB/shiny/64.png" alt="GBP"><input type="number" id="GBP"
+          autocomplete="off" placeholder="GBP" />GBP</label>
+
+      <label><img src="https://www.countryflags.io/US/shiny/64.png" alt="eua"><input type="number" id="USD"
+          autocomplete="off" placeholder="American Dollar" />USD</label>
+      <label><img src="https://www.countryflags.io/EU/shiny/64.png" alt="eur"><input type="number" id="EUR"
+          autocomplete="off" placeholder="Euro" />EUR</label>
+      <label><img src="https://www.countryflags.io/CA/shiny/64.png" alt="CAD"><input type="number" id="CAD"
+          autocomplete="off" placeholder="Canadian Dollar" />CAD</label>
+      <label><img src="https://www.countryflags.io/AU/shiny/64.png" alt="AUD"><input type="number" id="AUD"
+          autocomplete="off" placeholder="Australian Dollar" />AUD</label>
+      <label><img src="https://www.countryflags.io/BR/shiny/64.png" alt="brl"><input type="number" id="brl"
+          autocomplete="off" placeholder="Brazilian Real">BRL</label>
+    </div>
+  </section>
+</body>
+<script>
+  const conv = {
+    "gbp": {
+      usd: 1.39,
+      eur: 1.17,
+      cad: 1.75,
+      aud: 1.80,
+      brl: 0.13
+    },
+    "eur": {
+      gbp: 0.86,
+      usd: 1.19,
+      cad: 1.50,
+      aud: 1.54,
+      brl: 0.15
+    },
+    "cad": {
+      gbp: 0.57,
+      usd: 0.79,
+      eur: 0.67,
+      aud: 1.03,
+      brl: 0.13
+    },
+    "aud": {
+      gbp: 0.55,
+      usd: 0.97,
+      eur: 0.65,
+      cad: 0.97,
+      brl: 0.23
+    },
+    "usd": {
+      gbp: 0.72,
+      eur: 0.84,
+      cad: 1.26,
+      aud: 1.30,
+      brl: 0.18
+    },
+    "brl": {
+      gbp: 0.13,
+      eur: 0.15,
+      cad: 0.22,
+      aud: 0.23,
+      usd: 0.18
+    }
+  };
+
+  const formatVal = num => {
+    const dec = num % 1 ? 2 : 0; // https://twitter.com/wesbos/status/1369713969007575043
+    return (num).toFixed(dec);
+  };
+  window.addEventListener("load", function () {
+    const fs = document.getElementById("fs");
+    const fields = [...fs.querySelectorAll("input")].reduce((acc, fld) => (acc[fld.id.toLowerCase()] = fld,
+      acc), {})
+    fs.addEventListener("input", function (e) {
+      const tgt = e.target;
+      const from = tgt.id.toLowerCase();
+      let fromVal = +tgt.value;
+      Object.entries(conv[from]).forEach(([key, val]) => fields[key].value = formatVal(val * fromVal));
+    });
+  });
+</script>
+
+</html>
